@@ -1,0 +1,12 @@
+@startuml
+
+class SqlBikeModelDao {
+	+BikeModel create(Connection connection, BikeModel bikeModel)
+	+BikeModel find(Connection connection, Long bikeModelId)
+	+List<BikeModel> findByKeywords(Connection connection, String  keywords, Calendar fromDate)
+	+void update(Connection connection, BikeModel bikeModel)
+	+void remove(Connection connection, Long bikeModelId)
+}
+
+
+@enduml

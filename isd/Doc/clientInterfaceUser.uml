@@ -1,0 +1,10 @@
+@startuml
+
+class ClientBikeModelService {
+	+List<ClientBikeModelDto> findByKeyWords(String keyWords, Calendar fromDate)
+	+ClientReservationDto rentBike(Long bikeModelId, String userEmail, String creditCard, int bikesRented, Calendar startRental, Calendar endRental)
+	+void rateReservation(Long rentalId, String userEmail, float score)
+	+List<ClientReservationDto> findReservations(String userEmail)
+}
+
+@enduml

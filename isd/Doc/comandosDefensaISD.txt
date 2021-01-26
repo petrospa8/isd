@@ -1,0 +1,196 @@
+1. Añadir modelo de bicicleta (AdminBikeModelClient)
+
+-addBike <name> <description> <rentableFrom> <totalUnits> <pricePerDay>
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 1' 'Bicicleta de montaña' '2020-02-15' 8 10"
+
+//bikeModelId=1 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 2' 'Modelo de paseo' '2020-02-15' 10 12"
+
+//bikeModelId=2 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 3' 'Bicicleta de carreras' '2020-03-01' 3 15"
+
+//bikeModelId=3 created successfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 4' 'Bicicleta de montaña 2' '2019-01-01' 3 10"
+
+//The date from which a bike model is available to rent (Tue Jan 01 00:00:00 CET 2019) must be after the current date.
+
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 5' 'Bicicleta de carreras 2' '2020-03-01' 0 15"
+
+//Invalid totalUnits (0). It must be above zero.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-addBike 'Bicicleta 6' ' ' '2020-03-01' 3 8"
+
+//Invalid description value (it cannot be null neither empty): 
+
+
+2. Buscar modelos de bicicleta por palabras clave y fecha (UserBikeModelClient)
+
+-findBikes <keywords> <rentableFrom>
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-findBikes 'De CLeta' '2020-02-15'"
+
+//Found 1 bikeModel(s) with keywords 'De CLeta'
+bikeModelId: 1, averageScore: N/A, timesRated: 0
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-findBikes ' ' '2020-02-15'"
+
+//Found 2 bikeModel(s) with keywords ' '
+bikeModelId: 1, averageScore: N/A, timesRated: 0
+bikeModelId: 2, averageScore: N/A, timesRated: 0
+
+
+3. reservar modelo de bicicleta (userBikeModelClient)
+
+-reserve <bikeModelId> <userEmail> <creditCard> <bikesRented> <startRental> <endRental>
+	
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user1@udc.es' '0123456789111111' 2 '2020-02-21' '2020-02-22'"
+
+//bikeModelId 1 rented sucessfully (rentalId=1)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 2 'user1@udc.es' '0123456789111111' 3 '2020-02-28' '2020-03-05'"
+
+
+//bikeModelId 2 rented sucessfully (rentalId=2)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user2@udc.es' '0123456789222222' 1 '2020-02-20' '2020-02-22'"
+
+//bikeModelId 1 rented sucessfully (rentalId=3)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user3@udc.es' '0123456789333333' 2 '2020-02-20' '2020-02-27'"
+
+
+//bikeModelId 1 rented sucessfully (rentalId=4)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user4@udc.es' '0123456789444444' 2 '2020-02-21' '2020-02-24'"
+
+//bikeModelId 1 rented sucessfully (rentalId=5)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user5@udc.es' '0123456789555555' 2 '2020-02-22' '2020-02-25'"
+
+//bikeModelId 1 rented sucessfully (rentalId=6)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user6@udc.es' '0123456789666666' 15 '2020-03-01' '2020-03-10'"
+
+//Not enough units in bike model. There are only 8 units remaining but 15 were requested
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 3 'user6@udc.es' '0123456789666666' 1 '2020-02-20' '2020-02-25'"
+
+//That bike is not available yet. The selected date for the start of the rental (Thu Feb 20 00:00:00 CET 2020) must be after the date from which that bike model can be rented (Sun Mar 01 00:00:00 CET 2020).
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user6@udc.es' '0123456789666666' 1 '2020-02-20' '2020-03-20'"
+
+//The end rental date must be after the start rental day within a 15-day timespan. Start rental date: Thu Feb 20 00:00:00 CET 2020 | End rental date: Fri Mar 20 00:00:00 CET 2020.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user6@udc.es' '0123456789666666' 1 '2019-11-01' '2019-11-03'"
+
+//Invalid date :startRental (Fri Nov 01 00:00:00 CET 2019). It must be after today's date (Sun Dec 15 11:17:03 CET 2019.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 1 'user6@udc.es' '0123456789666666' 1 '2020-02-15' '2020-02-10'"
+
+//The end rental date must be after the start rental date and must not exceed a 15-day timespan. Start rental date: Sat Feb 15 00:00:00 CET 2020 | End rental date: Mon Feb 10 00:00:00 CET 2020.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-reserve 9999 'user6@udc.es' '0123456789333333' 1 '2020-02-15' '2020-02-20'"
+
+//Instance not found (identifier = '9999' - type = 'es.udc.ws.bikeModels.model.bikeModel.BikeModel')
+
+4. Actualizar modelo de bicicleta (AdminBikeModelClient)
+
+-updateBike <bikeModelId> <name> <description> <rentableFrom> <totalUnits> <pricePerDay>
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-updateBike 1 'Bicicleta 1 bis' 'Bicicleta de montaña modificada' '2020-02-10' 10 9"
+
+//bikeModelId 1 updated sucessfully
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-updateBike 2 'Bicicleta 2 bis' 'Bicicleta de paseo' '2020-03-15' 10 10"
+
+//Invalid new value for RentableFrom. New date was (Sun Mar 15 00:00:00 CET 2020) but should be later than (Sat Feb 15 00:00:00 CET 2020).
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-updateBike 9999 'Bicicleta 7' 'Bicicleta nueva' '2020-07-01' 4 12"
+
+//Instance not found (identifier = '9999' - type = 'es.udc.ws.bikeModels.model.bikeModel.BikeModel')
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-updateBike 3 'Bicicleta 3 bis' 'Bicicleta de carreras modificada' '2020-07-01' 4 0"
+
+//Invalid pricePerDay (0.0). It must be above zero.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-updateBike 3 ' ' 'Bicicleta modificada' '2020-07-01' 4 0"
+
+// Invalid name value (it cannot be null neither empty):
+
+
+5. Puntuar reserva (UserBikeModelClient)
+
+-rateReservation <rentalId> <userEmail> <avgScore>
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 1 'user1@udc.es' 4"
+
+//reservationId 1 rated sucessfully with a score of 4
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 3 'user1@udc.es' 4"
+
+// The user should be user2@udc.es but is user1@udc.es.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 3 'user2@udc.es' 8"
+
+//reservationId 3 rated sucessfully with a score of 8
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 4 'user3@udc.es' 9"
+
+//reservationId 4 rated sucessfully with a score of 9
+
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 1 'user1@udc.es' 1"
+
+//rentalId 1 has already been rated and cannot be rated again.
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 2 'user1@udc.es' 4"
+
+//An unfinished reservation cannot be rated. The rating (Sun Mar 01 00:00:00 CET 2020) must happen after the end of the rental (Thu Mar 05 00:00:00 CET 2020)
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 9999  'user3@udc.es' 6"
+
+//Instance not found (identifier = '9999' - type = 'es.udc.ws.bikeModels.model.reservation.Reservation')
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 5 'user4@udc.es' 6"
+
+//reservationId 5 rated sucessfully with a score of 6
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-rateReservation 6 'user5@udc.es' 8"
+
+//reservationId 6 rated sucessfully with a score of 8
+
+
+6. Buscar reservas (UserBikeModelClient)
+
+- findReservations <userEmail>
+
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-findReservations 'user1@udc.es'"
+
+//The reservations for the user user1@udc.es are :
+reservationId: 1. Score: 4.0. Duration: 2
+reservationId: 2. Score: N/A. Duration: 7
+
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.user.ui.BikeModelServiceClient" -Dexec.args="-findReservations 'user6@udc.es'"
+
+//The reservations for the user user6@udc.es are :
+
+
+7. Buscar modelo de bicicleta por identificador (AdminBikeModelClient)
+
+- findBike <bikeModelId>
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-findBike 1"
+
+//Data: name='Bicicleta 1 bis'; averageScore=7.0; timesRated=5; description: 'Bicicleta de montaña modificada'; totalUnits=10; pricePerDay=9.0
+
+mvn exec:java -Dexec.mainClass="es.udc.ws.bikeModel.client.admin.ui.BikeModelServiceClient" -Dexec.args="-findBike 9999"
+
+//Instance not found (identifier = '9999' - type = 'es.udc.ws.bikeModels.model.bikeModel.BikeModel')
+

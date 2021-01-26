@@ -1,0 +1,26 @@
+@startuml
+	
+class BikeModel {
+	-Long bikeModelId
+	-String name
+	-String description
+	-Calendar rentableFrom
+	-int totalUnit
+	-float pricePerDay
+	-Calendar creationDate
+	-int timesRated
+	-float avgScore
+}
+
+class Reservation {
+	-Long rentalId
+	-String userEmail
+	-String creditCard
+	-Calendar startRental
+	-Calendar endRental
+	-int bikesToRent
+	-Long bikeModelId
+	-Calendar creationDate
+	-float score
+}
+@enduml

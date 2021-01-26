@@ -1,0 +1,13 @@
+@startuml
+
+class BikeModelService {
+
+	+BikeModel addBikeModel(BikeModel bikeModel)
+	+void updateBikeModel(BikeModel bikeModel)
+	+BikeModel findBikeModel(Long bikeModelId)
+	+List<BikeModel> findByKeyWords(String keyWords, Calendar fromDate)
+	+Reservation rentBike(Long bikeModelId, String userEmail, String creditCard, int bikesRented, Calendar startRental, Calendar endRental)
+	+List<Reservation> findReservations(String userEmail)
+	+void rateReservation(Long rentalId, String userEmail)
+}
+@enduml

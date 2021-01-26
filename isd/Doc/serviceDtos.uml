@@ -1,0 +1,23 @@
+@startuml
+
+class ServiceBikeModelDto {
+	-Long bikeModelId
+	-String name
+	-String description 
+	-Calendar rentableFrom
+	-int totalUnits
+	-float pricePerDay
+	-int timesRated
+	-float avgScore
+}
+
+class ServiceReservationDto {
+	-Long rentalId
+	-Long bikeModelId
+	-Calendar startRental
+	-Calendar endRental
+	-int bikesToRent
+	-float score
+}
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+
+class ClientBikeModelService {
+	+Long addBikeModel(ClientBikeModelDto bikeModel)
+	+void updateBikeModel(ClientBikeModelDto bikeModel)
+	+ClientBikeModelDto findBike(Long bikeModelId)
+}
+
+@enduml

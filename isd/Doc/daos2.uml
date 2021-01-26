@@ -1,0 +1,12 @@
+@startuml
+
+class SqlReservationDAO {
+	+Reservation create(Connection connection, Long rentalId)
+	+Reservation find(Connection connection, Long rentalId)
+	+void update(Connection connection, Reservation reservation)
+	+void remove(Connection connection, Long reservationId)
+	+List<Reservation> findByUser(Connection connection, String userEmail)
+	+boolean exists(Connection connection, Long bikeModelId)
+}
+
+@enduml

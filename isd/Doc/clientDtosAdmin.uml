@@ -1,0 +1,14 @@
+@startuml
+
+class ClientBikeModelDto {
+	-Long bikeModelId
+	-String name
+	-String description
+	-Calendar rentableFrom
+	-int totalUnits
+	-float pricePerDay
+	-int timesRated
+	-float avgScore
+}
+
+@enduml
